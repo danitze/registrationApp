@@ -1,6 +1,5 @@
 package com.example.registrationapp.data
 
-@Suppress("REDUNDANT_INLINE_SUSPEND_FUNCTION_TYPE")
 sealed class ApiResult<T> {
     class Success<T>(val data: T) : ApiResult<T>()
     class Error<T>(val code: Int, val msg: String?) : ApiResult<T>()

@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.registrationapp.R
 import com.example.registrationapp.databinding.FragmentSignInBinding
 import com.example.registrationapp.events.SignInEvent
 import com.example.registrationapp.states.AuthState

@@ -6,8 +6,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.registrationapp.data.ApiResult
 import com.example.registrationapp.data.SignInRequest
-import com.example.registrationapp.data.UserInfo
-import com.example.registrationapp.states.ProfileFragmentState
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber
 import kotlinx.coroutines.flow.Flow
