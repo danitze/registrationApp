@@ -28,6 +28,29 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     ): FragmentProfileBinding = FragmentProfileBinding.inflate(inflater, container, false)
 
     override fun setUpViews() {
+        loadingPb = viewBinding.pbLoading
+
+        viewBinding.etName.addTextChangedListener { text ->
+            text?.let { viewModel.onEvent(ProfileEvent.NameChanged(it.toString())) }
+        }
+
+        viewBinding.etSurname.addTextChangedListener { text ->
+            text?.let { viewModel.onEvent(ProfileEvent.SurnameChanged(it.toString())) }
+        }
+
+        viewBinding.etPhoneNumber.addTextChangedListener { text ->
+            text?.let { viewModel.onEvent(ProfileEvent.PhoneNumberChanged(it.toString())) }
+        }
+
+        viewBinding.btnSave.setOnClickListener {
+            viewBinding.etName.onEditorAction(EditorInfo.IME_ACTION_DONE)
+            viewBinding.etSurname.onEditorAction(EditorInfo.IME_ACTION_DONE)
+            viewBinding.etPhoneNumber.onEditorAction(EditorInfo.IME_ACTION_DONE)
+            viewModel.onEvent(ProfileEvent.SaveProfile)
+        }
+    }
+
+    override fun setUpObservers() {
         observe(viewModel.authorizedSharedFlow) { authState ->
             when(authState) {
                 is AuthState.Authorized -> {}
@@ -50,6 +73,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             } else {
                 viewBinding.btnSave.visibility = View.GONE
             }
+            setLoading(profileFragmentState.isLoading)
         }
 
         observe(viewModel.errorsFlow) { msg ->
@@ -58,27 +82,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 msg,
                 Toast.LENGTH_LONG
             ).show()
-        }
-    }
-
-    override fun setUpObservers() {
-        viewBinding.etName.addTextChangedListener { text ->
-            text?.let { viewModel.onEvent(ProfileEvent.NameChanged(it.toString())) }
-        }
-
-        viewBinding.etSurname.addTextChangedListener { text ->
-            text?.let { viewModel.onEvent(ProfileEvent.SurnameChanged(it.toString())) }
-        }
-
-        viewBinding.etPhoneNumber.addTextChangedListener { text ->
-            text?.let { viewModel.onEvent(ProfileEvent.PhoneNumberChanged(it.toString())) }
-        }
-
-        viewBinding.btnSave.setOnClickListener {
-            viewBinding.etName.onEditorAction(EditorInfo.IME_ACTION_DONE)
-            viewBinding.etSurname.onEditorAction(EditorInfo.IME_ACTION_DONE)
-            viewBinding.etPhoneNumber.onEditorAction(EditorInfo.IME_ACTION_DONE)
-            viewModel.onEvent(ProfileEvent.SaveProfile)
         }
     }
 }

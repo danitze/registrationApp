@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
@@ -12,6 +13,8 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
     private var _viewBinding: B? = null
     protected val viewBinding: B
     get() = checkNotNull(_viewBinding)
+
+    protected var loadingPb: ProgressBar? = null
 
     protected abstract fun initBinding(inflater: LayoutInflater, container: ViewGroup?): B
     protected abstract fun setUpViews()
@@ -35,5 +38,9 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _viewBinding = null
+    }
+
+    fun setLoading(isLoading: Boolean) {
+        loadingPb?.visibility = if(isLoading) View.VISIBLE else View.GONE
     }
 }

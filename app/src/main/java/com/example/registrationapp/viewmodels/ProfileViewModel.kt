@@ -114,6 +114,9 @@ class ProfileViewModel @Inject constructor(
 
     private fun saveUserInfo() {
         viewModelScope.launch {
+            _profileFragmentStateFlow.value = _profileFragmentStateFlow.value.copy(
+                isLoading = true
+            )
             authRepo.updateUserInfo(currentUserInfo).onOk {
                 initialUserInfo = currentUserInfo
                 _profileFragmentStateFlow.value = _profileFragmentStateFlow.value.copy(
@@ -124,6 +127,9 @@ class ProfileViewModel @Inject constructor(
                     ?: _errorsFlow.emit("Unknown error occurred")
             }
         }
+        _profileFragmentStateFlow.value = _profileFragmentStateFlow.value.copy(
+            isLoading = false
+        )
     }
 
 }

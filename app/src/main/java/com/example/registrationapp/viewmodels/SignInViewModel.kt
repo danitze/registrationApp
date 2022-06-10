@@ -55,6 +55,9 @@ class SignInViewModel @Inject constructor(
 
     private fun logIn() {
         viewModelScope.launch {
+            _signInStateFlow.value = _signInStateFlow.value.copy(
+                isLoading = true
+            )
             val currentValue = signInStateFlow.value
             authRepo.signIn(
                 currentValue.phoneNumber,
@@ -68,6 +71,9 @@ class SignInViewModel @Inject constructor(
                 _authorizedSharedFlow.emit(AuthState.Unauthorized)
                 it.localizedMessage?.let { msg -> _errorsFlow.emit(msg) }
             }
+            _signInStateFlow.value = _signInStateFlow.value.copy(
+                isLoading = false
+            )
         }
     }
 }

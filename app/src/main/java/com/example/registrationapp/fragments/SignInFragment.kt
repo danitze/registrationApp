@@ -26,6 +26,8 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>() {
     ): FragmentSignInBinding = FragmentSignInBinding.inflate(inflater, container, false)
 
     override fun setUpViews() {
+        loadingPb = viewBinding.pbLoading
+
         viewBinding.etPhoneNumber.addTextChangedListener { text ->
             text?.let { viewModel.onEvent(SignInEvent.PhoneNumberChanged(it.toString())) }
         }
@@ -45,6 +47,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>() {
         observe(viewModel.signInStateFlow) { signInState ->
             viewBinding.btnSignIn.isEnabled =
                 signInState.phoneNumber.isNotEmpty() && signInState.password.isNotEmpty()
+            setLoading(signInState.isLoading)
         }
 
         observe(viewModel.authorizedSharedFlow) { authState ->
