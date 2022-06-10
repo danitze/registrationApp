@@ -2,10 +2,14 @@ package com.example.registrationapp.fragments
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.registrationapp.R
 import com.example.registrationapp.databinding.FragmentSignInBinding
 import com.example.registrationapp.events.SignInEvent
+import com.example.registrationapp.states.AuthState
 import com.example.registrationapp.utils.observe
 import com.example.registrationapp.viewmodels.SignInViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,6 +42,23 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>() {
         observe(viewModel.signInStateFlow) { signInState ->
             viewBinding.btnSignIn.isEnabled =
                 signInState.phoneNumber.isNotEmpty() && signInState.password.isNotEmpty()
+        }
+
+        observe(viewModel.authorizedSharedFlow) { authState ->
+            when (authState) {
+                is AuthState.Unauthorized -> {}
+                is AuthState.Authorized -> {
+                    findNavController().navigate(R.id.profileFragment)
+                }
+            }
+        }
+
+        observe(viewModel.errorsFlow) { msg ->
+            Toast.makeText(
+                requireContext(),
+                msg,
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 }

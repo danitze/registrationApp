@@ -1,6 +1,5 @@
 package com.example.registrationapp.repo.implementation
 
-import android.util.Log
 import com.example.registrationapp.data.ApiResult
 import com.example.registrationapp.data.SignInResponse
 import com.example.registrationapp.repo.abstraction.AuthRepo
@@ -19,7 +18,7 @@ class AuthRepoImpl @Inject constructor(
             .Exception(IllegalArgumentException("Incorrect phone number!"))
         val result = authService.login(signInRequest)
         result.onSuccess {
-            Log.d("MyTag", "$it")
+            //TODO save data to db
         }
         return result
     }
