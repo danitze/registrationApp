@@ -14,7 +14,6 @@ import com.example.registrationapp.states.AuthState
 import com.example.registrationapp.utils.observe
 import com.example.registrationapp.viewmodels.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.take
 
 
 @AndroidEntryPoint
@@ -61,13 +60,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             }
         }
 
-        observe(viewModel.profileFragmentStateFlow.take(2)) { profileFragmentState ->
-            viewBinding.etName.setText(profileFragmentState.name)
-            viewBinding.etSurname.setText(profileFragmentState.surname)
-            viewBinding.etPhoneNumber.setText(profileFragmentState.phoneNumber)
-        }
-
         observe(viewModel.profileFragmentStateFlow) { profileFragmentState ->
+
+            viewBinding.etName.setTextCursorEnd(profileFragmentState.name)
+            viewBinding.etSurname.setTextCursorEnd(profileFragmentState.surname)
+            viewBinding.etPhoneNumber.setTextCursorEnd(profileFragmentState.phoneNumber)
+
             if(profileFragmentState.dataChanged && viewModel.currentUserInfo.notEmpty()) {
                 viewBinding.btnSave.visibility = View.VISIBLE
             } else {

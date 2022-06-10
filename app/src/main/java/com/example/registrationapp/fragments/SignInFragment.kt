@@ -45,6 +45,10 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>() {
 
     override fun setUpObservers() {
         observe(viewModel.signInStateFlow) { signInState ->
+
+            viewBinding.etPhoneNumber.setTextCursorEnd(signInState.phoneNumber)
+            viewBinding.etPassword.setTextCursorEnd(signInState.password)
+
             viewBinding.btnSignIn.isEnabled =
                 signInState.phoneNumber.isNotEmpty() && signInState.password.isNotEmpty()
             setLoading(signInState.isLoading)
