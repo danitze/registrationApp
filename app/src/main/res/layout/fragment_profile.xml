@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -31,18 +32,14 @@
             android:contentDescription="@string/profile_image_desc"
             android:src="@drawable/account_circle_48px" />
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="9"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:labelFor="@id/etSurname"
-                android:text="@string/surname"
-                android:textColor="@color/light_gray" />
+            android:background="@android:color/transparent"
+            android:hint="@string/surname"
+            android:labelFor="@id/etSurname"
+            app:boxBackgroundColor="@android:color/transparent">
 
             <EditText
                 android:id="@+id/etSurname"
@@ -51,7 +48,7 @@
                 android:importantForAutofill="no"
                 android:inputType="text" />
 
-        </LinearLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
@@ -70,18 +67,14 @@
             android:contentDescription="@string/profile_image_desc"
             android:src="@drawable/account_circle_48px" />
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="9"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:labelFor="@id/etName"
-                android:text="@string/name"
-                android:textColor="@color/light_gray" />
+            android:background="@android:color/transparent"
+            android:hint="@string/name"
+            android:labelFor="@id/etName"
+            app:boxBackgroundColor="@android:color/transparent">
 
             <EditText
                 android:id="@+id/etName"
@@ -90,7 +83,7 @@
                 android:importantForAutofill="no"
                 android:inputType="text" />
 
-        </LinearLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
@@ -109,18 +102,14 @@
             android:contentDescription="@string/phone_image_desc"
             android:src="@drawable/phone_android_48px" />
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="9"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:labelFor="@id/etPhoneNumber"
-                android:text="@string/phone_number"
-                android:textColor="@color/light_gray" />
+            android:background="@android:color/transparent"
+            android:hint="@string/phone_number"
+            android:labelFor="@id/etPhoneNumber"
+            app:boxBackgroundColor="@android:color/transparent">
 
             <EditText
                 android:id="@+id/etPhoneNumber"
@@ -129,7 +118,7 @@
                 android:autofillHints="phone"
                 android:inputType="phone" />
 
-        </LinearLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 

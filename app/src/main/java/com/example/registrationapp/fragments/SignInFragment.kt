@@ -1,18 +1,43 @@
 package com.example.registrationapp.fragments
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import com.example.registrationapp.R
+import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
+import com.example.registrationapp.databinding.FragmentSignInBinding
+import com.example.registrationapp.events.SignInEvent
+import com.example.registrationapp.utils.observe
+import com.example.registrationapp.viewmodels.SignInViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class SignInFragment : Fragment() {
+@AndroidEntryPoint
+class SignInFragment : BaseFragment<FragmentSignInBinding>() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_sign_in, container, false)
+    private val viewModel: SignInViewModel by viewModels()
+
+    override fun initBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentSignInBinding = FragmentSignInBinding.inflate(inflater, container, false)
+
+    override fun setUpListeners() {
+        viewBinding.etPhoneNumber.addTextChangedListener { text ->
+            text?.let { viewModel.onEvent(SignInEvent.PhoneNumberChanged(it.toString())) }
+        }
+
+        viewBinding.etPassword.addTextChangedListener { text ->
+            text?.let { viewModel.onEvent(SignInEvent.PasswordChanged(it.toString())) }
+        }
+
+        viewBinding.btnSignIn.setOnClickListener {
+            viewModel.onEvent(SignInEvent.SignIn)
+        }
+    }
+
+    override fun setUpObservers() {
+        observe(viewModel.signInStateFlow) { signInState ->
+            viewBinding.btnSignIn.isEnabled =
+                signInState.phoneNumber.isNotEmpty() && signInState.password.isNotEmpty()
+        }
     }
 }
