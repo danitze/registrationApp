@@ -1,24 +1,35 @@
 package com.example.registrationapp.repo.implementation
 
+import android.content.Context
+import com.example.registrationapp.R
 import com.example.registrationapp.data.ApiResult
 import com.example.registrationapp.data.SignInResponse
 import com.example.registrationapp.repo.abstraction.AuthRepo
+import com.example.registrationapp.storage.local.room.UserDao
 import com.example.registrationapp.storage.remote.retrofit.services.AuthService
 import com.example.registrationapp.utils.parseSignInRequest
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class AuthRepoImpl @Inject constructor(
-    private val authService: AuthService
+    @ApplicationContext private val context: Context,
+    private val authService: AuthService,
+    private val userDao: UserDao
 ) : AuthRepo {
     override suspend fun signIn(fullPhoneNum: String, password: String): ApiResult<SignInResponse> {
         val signInRequest = parseSignInRequest(fullPhoneNum, password) ?: return ApiResult
-            .Exception(IllegalArgumentException("Incorrect phone number!"))
+            .Exception(IllegalArgumentException(context.getString(R.string.invalid_phone_error)))
         val result = authService.login(signInRequest)
         result.onSuccess {
-            //TODO save data to db
+            val newUser = it.userInfo
+            if(userDao.getUserById(newUser.userId) != null) {
+                userDao.updateUser(newUser)
+            } else {
+                userDao.insertUser(newUser)
+            }
         }
         return result
     }
