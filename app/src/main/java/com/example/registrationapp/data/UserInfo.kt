@@ -10,21 +10,24 @@ data class UserInfo(
     @PrimaryKey
     @ColumnInfo(name = "uid")
     @field:Json(name = "user_id")
-    val userId: Int,
+    val userId: Int = 0,
 
     @ColumnInfo(name = "phone_code")
     @field:Json(name = "phone_code")
-    val phoneCode: String,
+    val phoneCode: String = "",
 
     @ColumnInfo(name = "phone_number")
     @field:Json(name = "phone_number")
-    val phoneNumber: String,
+    val phoneNumber: String = "",
 
     @ColumnInfo(name = "name")
     @field:Json(name = "name")
-    val name: String,
+    val name: String = "",
 
     @ColumnInfo(name = "surname")
     @field:Json(name = "second_name")
-    val surName: String
-)
+    val surname: String = ""
+) {
+    fun notEmpty() =
+        userId != 0 && phoneCode.isNotEmpty() && phoneNumber.isNotEmpty() && name.isNotEmpty() && surname.isNotEmpty()
+}

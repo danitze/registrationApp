@@ -6,7 +6,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.registrationapp.data.ApiResult
 import com.example.registrationapp.data.SignInRequest
+import com.example.registrationapp.data.UserInfo
+import com.example.registrationapp.states.ProfileFragmentState
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import com.google.i18n.phonenumbers.Phonenumber
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -40,9 +43,8 @@ suspend fun <T : Any> handleApi(
 }
 
 fun parseSignInRequest(fullPhoneNumber: String, password: String): SignInRequest? {
-    val phoneUtil = PhoneNumberUtil.getInstance()
     return try {
-        val numberProto = phoneUtil.parse(fullPhoneNumber, "")
+        val numberProto = getFormattedPhoneNumber(fullPhoneNumber)
         SignInRequest(
             "+" + numberProto.countryCode,
             "" + numberProto.nationalNumber,
@@ -52,3 +54,10 @@ fun parseSignInRequest(fullPhoneNumber: String, password: String): SignInRequest
         null
     }
 }
+
+fun getFormattedPhoneNumber(fullPhoneNumber: String): Phonenumber.PhoneNumber {
+    val phoneUtil = PhoneNumberUtil.getInstance()
+    return phoneUtil.parse(fullPhoneNumber, "")
+}
+
+fun toFullPhoneNumber(countryCode: String, number: String) = countryCode + number

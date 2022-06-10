@@ -122,4 +122,18 @@
 
     </LinearLayout>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSave"
+        style="@style/MaterialButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/container_padding"
+        android:layout_marginStart="@dimen/sign_in_button_margin"
+        android:layout_marginEnd="@dimen/sign_in_button_margin"
+        android:text="@string/save"
+        android:textSize="@dimen/button_text_size"
+        android:textStyle="normal"
+        android:visibility="gone"
+        app:cornerRadius="@dimen/button_corner_radius" />
+
 </LinearLayout>

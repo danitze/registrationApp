@@ -13,4 +13,6 @@
     <string name="password_image_desc">Password image</string>
     <string name="phone_image_desc">Phone image</string>
     <string name="invalid_phone_error">Invalid phone number!</string>
+    <string name="save">Save</string>
+    <string name="save_error">Could not save data!</string>
 </resources>

@@ -14,7 +14,7 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
     get() = checkNotNull(_viewBinding)
 
     protected abstract fun initBinding(inflater: LayoutInflater, container: ViewGroup?): B
-    protected abstract fun setUpListeners()
+    protected abstract fun setUpViews()
     protected abstract fun setUpObservers()
 
     override fun onCreateView(
@@ -28,7 +28,7 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpListeners()
+        setUpViews()
         setUpObservers()
     }
 

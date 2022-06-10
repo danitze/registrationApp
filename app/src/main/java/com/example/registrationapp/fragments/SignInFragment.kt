@@ -2,6 +2,7 @@ package com.example.registrationapp.fragments
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -24,7 +25,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>() {
         container: ViewGroup?
     ): FragmentSignInBinding = FragmentSignInBinding.inflate(inflater, container, false)
 
-    override fun setUpListeners() {
+    override fun setUpViews() {
         viewBinding.etPhoneNumber.addTextChangedListener { text ->
             text?.let { viewModel.onEvent(SignInEvent.PhoneNumberChanged(it.toString())) }
         }
@@ -34,6 +35,8 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>() {
         }
 
         viewBinding.btnSignIn.setOnClickListener {
+            viewBinding.etPhoneNumber.onEditorAction(EditorInfo.IME_ACTION_DONE)
+            viewBinding.etPassword.onEditorAction(EditorInfo.IME_ACTION_DONE)
             viewModel.onEvent(SignInEvent.SignIn)
         }
     }
@@ -48,7 +51,8 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>() {
             when (authState) {
                 is AuthState.Unauthorized -> {}
                 is AuthState.Authorized -> {
-                    findNavController().navigate(R.id.profileFragment)
+                    val action = SignInFragmentDirections.actionSignInToProfile(authState.userId)
+                    findNavController().navigate(action)
                 }
             }
         }
