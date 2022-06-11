@@ -22,8 +22,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val authRepo: AuthRepo,
     private val stateHandle: SavedStateHandle
-) : ViewModel() {
-
+) : BaseViewModel() {
     private var initialUserInfo: UserInfo = UserInfo()
     private var _currentUserInfo: UserInfo = UserInfo()
     val currentUserInfo: UserInfo
@@ -31,12 +30,6 @@ class ProfileViewModel @Inject constructor(
 
     private val _profileFragmentStateFlow = MutableStateFlow(ProfileFragmentState())
     val profileFragmentStateFlow = _profileFragmentStateFlow.asStateFlow()
-
-    private val _authorizedSharedFlow = MutableSharedFlow<AuthState>(replay = 1)
-    val authorizedSharedFlow = _authorizedSharedFlow.asSharedFlow()
-
-    private val _errorsFlow = MutableSharedFlow<String>(replay = 1)
-    val errorsFlow = _errorsFlow.asSharedFlow()
 
     init {
         viewModelScope.launch {

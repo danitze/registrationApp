@@ -1,15 +1,12 @@
 package com.example.registrationapp.viewmodels
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.registrationapp.events.SignInEvent
 import com.example.registrationapp.repo.abstraction.AuthRepo
 import com.example.registrationapp.states.AuthState
 import com.example.registrationapp.states.SignInFragmentState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,15 +14,9 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val authRepo: AuthRepo
-) : ViewModel() {
+) : BaseViewModel() {
     private val _signInStateFlow = MutableStateFlow(SignInFragmentState())
     val signInStateFlow = _signInStateFlow.asStateFlow()
-
-    private val _authorizedSharedFlow = MutableSharedFlow<AuthState>(replay = 1)
-    val authorizedSharedFlow = _authorizedSharedFlow.asSharedFlow()
-
-    private val _errorsFlow = MutableSharedFlow<String>(replay = 1)
-    val errorsFlow = _errorsFlow.asSharedFlow()
 
     fun onEvent(event: SignInEvent) {
         when(event) {
