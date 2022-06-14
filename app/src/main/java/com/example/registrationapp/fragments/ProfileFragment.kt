@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -26,9 +27,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         container: ViewGroup?
     ): FragmentProfileBinding = FragmentProfileBinding.inflate(inflater, container, false)
 
-    override fun setUpViews() {
-        loadingPb = viewBinding.pbLoading
+    override fun setUpLoadingPb(): ProgressBar = viewBinding.pbLoading
 
+    override fun setUpViews() {
         viewBinding.etName.addTextChangedListener { text ->
             text?.let { viewModel.onEvent(ProfileEvent.NameChanged(it.toString())) }
         }

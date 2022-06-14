@@ -3,6 +3,7 @@ package com.example.registrationapp.fragments
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -24,9 +25,9 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>() {
         container: ViewGroup?
     ): FragmentSignInBinding = FragmentSignInBinding.inflate(inflater, container, false)
 
-    override fun setUpViews() {
-        loadingPb = viewBinding.pbLoading
+    override fun setUpLoadingPb(): ProgressBar = viewBinding.pbLoading
 
+    override fun setUpViews() {
         viewBinding.etPhoneNumber.addTextChangedListener { text ->
             text?.let { viewModel.onEvent(SignInEvent.PhoneNumberChanged(it.toString())) }
         }

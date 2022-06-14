@@ -15,9 +15,10 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
     protected val viewBinding: B
     get() = checkNotNull(_viewBinding)
 
-    protected var loadingPb: ProgressBar? = null
+    private var loadingPb: ProgressBar? = null
 
     protected abstract fun initBinding(inflater: LayoutInflater, container: ViewGroup?): B
+    protected abstract fun setUpLoadingPb(): ProgressBar
     protected abstract fun setUpViews()
     protected abstract fun setUpObservers()
 
@@ -37,6 +38,7 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        loadingPb = setUpLoadingPb()
         setUpViews()
         setUpObservers()
     }
