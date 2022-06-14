@@ -1,7 +1,6 @@
 package com.example.registrationapp.viewmodels
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.registrationapp.data.UserInfo
 import com.example.registrationapp.events.ProfileEvent
@@ -11,9 +10,7 @@ import com.example.registrationapp.states.ProfileFragmentState
 import com.example.registrationapp.utils.getFormattedPhoneNumber
 import com.example.registrationapp.utils.toFullPhoneNumber
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,6 +30,9 @@ class ProfileViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            _profileFragmentStateFlow.value = _profileFragmentStateFlow.value.copy(
+                isLoading = true
+            )
             stateHandle.get<Int>("userId")?.let { uid ->
                 getUserInfo(uid)?.let { userInfo ->
                     initialUserInfo = userInfo
@@ -44,6 +44,9 @@ class ProfileViewModel @Inject constructor(
                     )
                 } ?: _authorizedSharedFlow.emit(AuthState.Unauthorized)
             } ?: _authorizedSharedFlow.emit(AuthState.Unauthorized)
+            _profileFragmentStateFlow.value = _profileFragmentStateFlow.value.copy(
+                isLoading = false
+            )
         }
     }
 
